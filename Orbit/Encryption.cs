@@ -21,7 +21,6 @@ namespace Galaxxy
     public class Orbit
     {
         public Char fKey { get; }
-        private String input;
 
         public Orbit()
         {
@@ -42,7 +41,7 @@ namespace Galaxxy
             String resultMessage = "";
             for (int i = 0; i < message.Length; i++)
             {
-                resultMessage = resultMessage + char.ToString((char)(message[i] ^ fKey));
+                resultMessage += char.ToString((char)(message[i] ^ fKey));
             }
             return resultMessage;
         }
@@ -52,7 +51,7 @@ namespace Galaxxy
             String resultMessage = "";
             for (int i = 0; i < message.Length; i++)
             {
-                resultMessage = resultMessage + char.ToString((char)(message[i] ^ key));
+                resultMessage += char.ToString((char)(message[i] ^ key));
             }
             return resultMessage;
         }

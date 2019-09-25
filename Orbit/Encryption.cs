@@ -63,12 +63,22 @@ namespace Galaxxy
          * so you only have to grab the index of a single string
          *
          * KeyStore() will store the key used by that instance
+         * and return the index you will need to use to access the same store
          * KeyStoreReturn() will return either the specified key or the last key
          */
 
-        public void KeyStore(String location)
+        public int KeyStore(String location)
         {
             File.AppendAllText(location, fKey.ToString());
+            var keyStore = File.ReadAllText(location);
+            int keyIndex = 0;
+            foreach (Char c in keyStore)
+            {
+                keyIndex++;
+            }
+            keyIndex -= 1;
+
+            return keyIndex;
         }
 
         public Char KeyStoreReturn(String location, Int32 index)

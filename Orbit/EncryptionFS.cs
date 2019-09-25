@@ -14,8 +14,8 @@ using System.IO;
  *
  * 
  *  
- * ex. Encryption <object> = new Encryption(parameter, messageLocation, optionalKey);
- *      <object>.Orbit() will return the private key used to encrypt
+ * ex. OrbitFS <object> = new OrbitFS(parameter, messageLocation, optionalKey);
+ *      <object>.EncryptDecrypt() will return the private key used to encrypt
  */
 
 namespace Galaxxy

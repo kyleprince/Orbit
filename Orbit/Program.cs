@@ -24,6 +24,9 @@ namespace Galaxxy
                 var key = orbit.fKey;
                 Console.WriteLine("Encrypted with key: " + key);
 
+                //Store the key
+                orbit.KeyStore("/users/kyleprince/keystore.txt");
+
                 Orbit orbit2 = new Orbit();
                 var decMessage = orbit2.DecryptMessage(encMessage, key);
                 Console.WriteLine("Decrypted message: " + decMessage);

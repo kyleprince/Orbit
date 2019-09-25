@@ -40,7 +40,7 @@ namespace Galaxxy
         public String EncryptMessage(String message)
         {
             String resultMessage = "";
-            for (int i = 0; i < message.Length; i++ )
+            for (int i = 0; i < message.Length; i++)
             {
                 resultMessage = resultMessage + char.ToString((char)(message[i] ^ fKey));
             }
@@ -55,6 +55,37 @@ namespace Galaxxy
                 resultMessage = resultMessage + char.ToString((char)(message[i] ^ key));
             }
             return resultMessage;
+        }
+
+
+        /* Key_Store Methods
+         * Designate a file for a Key_Store
+         * Keys will be saved in a single string,
+         * so you only have to grab the index of a single string
+         *
+         * KeyStore() will store the key used by that instance
+         * KeyStoreReturn() will return either the specified key or the last key
+         */
+
+        public void KeyStore(String location)
+        {
+            File.AppendAllText(location, fKey.ToString());
+        }
+
+        public Char KeyStoreReturn(String location, Int32 index)
+        {
+            String file = File.ReadAllText(location);
+            Char key = file[index];
+
+            return key;
+        }
+
+        public Char KeyStoreReturn(String location)
+        {
+            String file = File.ReadAllText(location);
+            Char key = file[(file.Length - 1)];
+
+            return key;
         }
     }
 }

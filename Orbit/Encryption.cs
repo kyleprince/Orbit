@@ -1,30 +1,36 @@
 ﻿using System;
 using System.IO;
 
-/* Class: Orbit, Namespace: Galaxxy
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Class: Orbit, Namespace: Galaxxy
  * Description: Isolated Encryption Class
- * 
- *  USE THIS OVER ORBIT FS FOR:
- *      * This class can be incorporated in another project entirely
- *          isolated, create instance, call encrypt or decrypt and
- *          receive variable results
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  *
- *  
- * ex. Orbit <object> = new Orbit();
- *      <object>.Encrypt(message) <object>.Decrypt(message, key)
- *      key is readonly from each instance
+ * ex. Orbit <object> = new Orbit(); Initializer builds the key
+ *      <object>.Encrypt(message)
+ *      <object>.Decrypt(message, <object>.KeyStoreReturn(path, index))
+ *
+ *  Key is only internal, then saved to the keystore. User keeps index.
  *  Create a new instance to get a new key
- */
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * Key_Store Methods
+ *
+ * KeyStore() : store the key used by that instance and return the index 
+ * KeyStoreReturn() : return the specified key given the index
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 
 namespace Galaxxy
 {
     public class Orbit
     {
-        public Char fKey { get; }
+        private readonly Char privKey;
 
         public Orbit()
         {
-            fKey = BuildKey();
+            privKey = this.BuildKey();
         }
 
         private Char BuildKey()
@@ -41,7 +47,7 @@ namespace Galaxxy
             String resultMessage = "";
             for (int i = 0; i < message.Length; i++)
             {
-                resultMessage += char.ToString((char)(message[i] ^ fKey));
+                resultMessage += Char.ToString((Char)(message[i] ^ privKey));
             }
             return resultMessage;
         }
@@ -51,27 +57,16 @@ namespace Galaxxy
             String resultMessage = "";
             for (int i = 0; i < message.Length; i++)
             {
-                resultMessage += char.ToString((char)(message[i] ^ key));
+                resultMessage += Char.ToString((Char)(message[i] ^ key)); 
             }
             return resultMessage;
         }
 
-
-        /* Key_Store Methods
-         * Designate a file for a Key_Store
-         * Keys will be saved in a single string,
-         * so you only have to grab the index of a single string
-         *
-         * KeyStore() will store the key used by that instance
-         * and return the index you will need to use to access the same store
-         * KeyStoreReturn() will return either the specified key or the last key
-         */
-
-        public int KeyStore(String location)
+        public Int32 KeyStore(String path)
         {
-            File.AppendAllText(location, fKey.ToString());
-            var keyStore = File.ReadAllText(location);
-            int keyIndex = 0;
+            File.AppendAllText(path, privKey.ToString());
+            String keyStore = File.ReadAllText(path);
+            Int32 keyIndex = 0;
             foreach (Char c in keyStore)
             {
                 keyIndex++;
@@ -81,18 +76,10 @@ namespace Galaxxy
             return keyIndex;
         }
 
-        public Char KeyStoreReturn(String location, Int32 index)
+        public Char KeyStoreReturn(String path, Int32 pubKey)
         {
-            String file = File.ReadAllText(location);
-            Char key = file[index];
-
-            return key;
-        }
-
-        public Char KeyStoreReturn(String location)
-        {
-            String file = File.ReadAllText(location);
-            Char key = file[(file.Length - 1)];
+            String file = File.ReadAllText(path);
+            Char key = file[pubKey];
 
             return key;
         }
